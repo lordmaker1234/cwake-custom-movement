@@ -702,10 +702,10 @@ static void CwakePlugin_Init(void) {
     Commands_Register(&cwake_cmd);
 
     String_InitArray(msg, buf);
-    String_AppendConst(&msg, "&fLoading Cwake v1.0-pre");
+    String_AppendConst(&msg, "&fLoading Cwake v1.0");
     Chat_Add(&msg);
 
-    String_AppendConst(&Server.AppName, " + Cwake v1.0-pre");
+    String_AppendConst(&Server.AppName, " + Cwake v1.0");
 
     cw_origVTABLE = Entities.CurPlayer->Base.VTABLE;
     cw_hookedVTABLE = *cw_origVTABLE;
