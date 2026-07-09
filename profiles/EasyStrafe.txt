@@ -1,0 +1,12 @@
+mode 0
+friction 8.000000
+groundaccel 10.000000
+groundspeed 0.280000
+airspeed 30.000000
+airaccel 20.000000
+aircap 0.500000
+jump 1.000000
+grav 1.000000
+ricochet 0.000000
+ricochetup 0.690000
+bounce 0.000000
