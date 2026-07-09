@@ -22,3 +22,8 @@ The list of motd flags are:
  ricochetcount=
 ```
 These can be used as a map maker to enforce certain physics parameters on your map.
+
+
+
+# Notes
+Linux builds are currently untested
