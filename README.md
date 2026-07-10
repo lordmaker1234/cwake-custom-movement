@@ -1,5 +1,6 @@
 # Getting Started
-In order to enable the modified movement, use `/cwake toggle` (if you are on a server put `/client` before all commands).
+In order to enable the modified movement, use `/client cwake toggle`.
+To see the full list of commands type `/client cwake`, if you want more information about a given parameter, `/client cwake help [parameter]` will give you a brief descriptions.
 
 # Profiles
 In order to use profiles you must create a folder named 'cwake' in your ClassiCube 'plugins' folder.
@@ -22,8 +23,3 @@ The list of motd flags are:
  ricochetcount=
 ```
 These can be used as a map maker to enforce certain physics parameters on your map.
-
-
-
-# Notes
-Linux builds are currently untested
