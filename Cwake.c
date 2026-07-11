@@ -21,6 +21,15 @@
 #include <string.h>
 #include <stdlib.h>
 
+#if defined(_WIN64)
+    #include <windows.h>
+#elif defined(_LP64)
+    #ifndef _GNU_SOURCE
+    #define _GNU_SOURCE
+    #endif
+    #include <dlfcn.h>
+#endif
+
 /* Default Parameters */
 #define DEF_FRICTION      8.0f
 #define DEF_GROUND_ACCEL  10.0f
@@ -82,6 +91,23 @@ static int motd_ricochet_count = DEF_RICOCHET_COUNT;
 static float motd_jump_boost = DEF_JUMP;
 
 static char cached_motd[256] = { 0 };
+
+/* Livesplit Plugin Support */
+static void (*cw_LiveSplit_SetSpeed)(cc_uint32 speed) = NULL;
+static cc_bool cw_send_livesplit = false;
+
+static cc_bool Cwake_LinkLiveSplit(void) {
+    if (cw_LiveSplit_SetSpeed) return true;
+
+#if defined(_WIN64)
+    HMODULE mod = GetModuleHandleA("classicube_livesplit_plugin.dll");
+
+    if (mod) { cw_LiveSplit_SetSpeed = (void (*)(cc_uint32))GetProcAddress(mod, "LiveSplit_SetCheckpointSpeed"); }
+#elif defined(_LP64)
+    cw_LiveSplit_SetSpeed = (void (*)(cc_uint32))dlsym(RTLD_DEFAULT, "LiveSplit_SetCheckpointSpeed");
+#endif
+    return cw_LiveSplit_SetSpeed != NULL;
+}
 
 static void Cwake_GetView(struct Matrix* view) {
     if (cw_orig_GetView) {
@@ -234,6 +260,7 @@ static void CwakeCmd_Execute(const cc_string* args, int argsCount) {
         String_InitArray(msg, buf); String_AppendConst(&msg, "&e/cwake [save|load] <name> &f- Save/Load cwake profiles."); Chat_Add(&msg);
         String_InitArray(msg, buf); String_AppendConst(&msg, "&e/cwake motd &f- Show MOTD flags for current physics"); Chat_Add(&msg);
         String_InitArray(msg, buf); String_AppendConst(&msg, "&e/cwake [param] <value> &f- Set parameter (omit <value> to reset)");
+        String_InitArray(msg, buf); String_AppendConst(&msg, "&e/cwake livesplit &f- Toggle LivSplit timer integration (requires additional plugin)"); Chat_Add(&msg);
         return;
     }
 
@@ -379,6 +406,22 @@ static void CwakeCmd_Execute(const cc_string* args, int argsCount) {
         }
         if (strcmp(cmd, "save") == 0) Cwake_SaveConfig(profile);
         else Cwake_LoadConfig(profile);
+        return;
+    }
+
+    if (strcmp(cmd, "livesplit") == 0) {
+        if (cw_send_livesplit) {
+            cw_send_livesplit = false;
+            if (cw_LiveSplit_SetSpeed) cw_LiveSplit_SetSpeed(0);
+            String_InitArray(msg, buf); String_AppendConst(&msg, "&e[Cwake] LiveSplit integration OFF"); Chat_Add(&msg); 
+        } else {
+            if (Cwake_LinkLiveSplit()) {
+                cw_send_livesplit = true;
+                String_InitArray(msg, buf); String_AppendConst(&msg, "&a[Cwake] LiveSplit linked and active!"); Chat_Add(&msg);
+            } else {
+                String_InitArray(msg, buf); String_AppendConst(&msg, "&c[Cwake] Link failed: LiveSplit plugin not found."); Chat_Add(&msg);
+            }
+        }
         return;
     }
 
@@ -567,6 +610,7 @@ static void Cwake_Tick(struct Entity* e, float delta) {
         cw_last_yaw = p->Base.Yaw;
         cw_target_roll = 0.0f;
         cw_current_roll = 0.0f;
+        if (cw_send_livesplit && cw_LiveSplit_SetSpeed) { cw_LiveSplit_SetSpeed(0); }
         return;
     }
 
@@ -609,6 +653,15 @@ static void Cwake_Tick(struct Entity* e, float delta) {
 
         sprintf(rawBuf, "&bSpeed: %.1f | Top: %.1f", realBPS, cw_top_speed);
         String_InitArray(msg, msgBuf); String_AppendConst(&msg, rawBuf); Chat_AddOf(&msg, 11);
+    }
+
+    /* Send speed data to Livesplit plugin */
+    if (cw_send_livesplit && cw_LiveSplit_SetSpeed) {
+        float hzSpeed = sqrtf(e->Velocity.x * e->Velocity.x + e->Velocity.z * e->Velocity.z);
+        float realBPS = hzSpeed * 20.0f;
+        
+        cc_uint32 scaled_speed = (cc_uint32)(realBPS * 100.0f);
+        cw_LiveSplit_SetSpeed(scaled_speed);
     }
 
     savedDrag = p->Physics.drag;
