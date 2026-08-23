@@ -559,8 +559,7 @@ static void Cwake_DrawNuklear(void) {
       nk_property_float(&ctx, "Bounce Cons.:", 0.0f, &cw_active_profile.bounce, 10000.0f, 0.01f, 0.002f);
 
       nk_layout_row_dynamic(&ctx, 1, 1);
-      nk_rule_horizontal(&ctx, accent, n
-        k_true);
+      nk_rule_horizontal(&ctx, accent, nk_true);
 
       // Group 2: Ground Values
       nk_layout_row_dynamic(&ctx, 25, 2);
