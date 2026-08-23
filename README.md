@@ -1,25 +1,28 @@
-# Getting Started
-In order to enable the modified movement, use `/client cwake toggle`.
-To see the full list of commands type `/client cwake`, if you want more information about a given parameter, `/client cwake help [parameter]` will give you a brief descriptions.
+# Cwake 2.0
 
-# Profiles
-In order to use profiles you must create a folder named 'cwake' in your ClassiCube 'plugins' folder.
+Cwake is a client-side plugin for ClassiCube that introduces customizable physics overrides, camera tilting, custom audio triggers and a built-in speedometer.
 
-# MOTD Flags
-The list of motd flags are:
+## Features
 
- ```
- mode=
- fric=
- grav=
- groundspeed=
- groundaccel=
- bounce=
- airspeed=
- airaccel=
- aircap=
- ricochet=
- ricochetup=
- ricochetcount=
-```
-These can be used as a map maker to enforce certain physics parameters on your map.
+- **Physics Overrides**
+  - Configurable Gravity, Friction, Ground Speed/Acceleration, and Air Speed/Acceleration/Cap.
+- **Camera Tilt**
+  - 2 types of screen tilt, classic Quake style and flight sim-esque delta-yaw.
+- **Profiles System**
+  - In-game GUI (accessible via a hotkey, defaulting to `Home`) to configure.
+  - Modular profile saving and loading for Physics, UI, and Sounds.
+- **Speedometer**
+  - Customizable on-screen speedometer overlay.
+- **Custom Audio**
+  - Ability to play custom sounds upon Jump, Land, Bounce, and Ricochet events.
+
+## Usage
+
+1. Place the Cwake binary (`.dll` or `.so`) into your ClassiCube `plugins` directory.
+2. Press `Home` (default) to open the Cwake Configuration menu.
+3. Settings can be saved to individual profiles and hot-swapped. Profiles are stored in `plugins/cwake/profiles/`.
+4. Sounds support `.mp3` and `.wav`. They should be stored in `plugins/cwake/sounds`.
+
+## Building
+
+**To Be Finished**
