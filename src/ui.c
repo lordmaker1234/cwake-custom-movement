@@ -778,7 +778,7 @@ static void Cwake_DrawNuklear(void) {
       nk_layout_row_template_push_static(&ctx, 110);
       nk_layout_row_template_push_dynamic(&ctx);
       nk_layout_row_template_push_static(&ctx, 35);
-      nk_layout_row_template_push_static(&ctx, 130);
+      nk_layout_row_template_push_static(&ctx, 155);
       nk_layout_row_template_push_static(&ctx, 90);
       nk_layout_row_template_end(&ctx);
 
@@ -789,7 +789,7 @@ static void Cwake_DrawNuklear(void) {
       if (j_idx > 0) {
         if (nk_button_symbol(&ctx, NK_SYMBOL_TRIANGLE_RIGHT))
           Cwake_PlaySound(cw_active_profile.jump_sound, cw_active_profile.jump_vol, cw_active_profile.jump_vary_pitch);
-        nk_property_float(&ctx, "Vol:", 0.0f, &cw_active_profile.jump_vol, 2.0f, 0.05f, 0.05f);
+        nk_property_float(&ctx, "Vol: ", 0.0f, &cw_active_profile.jump_vol, 2.0f, 0.05f, 0.05f);
         nk_checkbox_label(&ctx, "Vary Pitch", &cw_active_profile.jump_vary_pitch);
       } else {
         nk_label(&ctx, "", NK_TEXT_LEFT);
@@ -804,7 +804,7 @@ static void Cwake_DrawNuklear(void) {
       if (l_idx > 0) {
         if (nk_button_symbol(&ctx, NK_SYMBOL_TRIANGLE_RIGHT))
           Cwake_PlaySound(cw_active_profile.land_sound, cw_active_profile.land_vol, cw_active_profile.land_vary_pitch);
-        nk_property_float(&ctx, "Vol:", 0.0f, &cw_active_profile.land_vol, 2.0f, 0.05f, 0.05f);
+        nk_property_float(&ctx, "Vol:  ", 0.0f, &cw_active_profile.land_vol, 2.0f, 0.05f, 0.05f);
         nk_checkbox_label(&ctx, "Vary Pitch", &cw_active_profile.land_vary_pitch);
       } else {
         nk_label(&ctx, "", NK_TEXT_LEFT);
@@ -821,7 +821,7 @@ static void Cwake_DrawNuklear(void) {
         if (nk_button_symbol(&ctx, NK_SYMBOL_TRIANGLE_RIGHT))
           Cwake_PlaySound(cw_active_profile.bounce_sound, cw_active_profile.bounce_vol,
                           cw_active_profile.bounce_vary_pitch);
-        nk_property_float(&ctx, "Vol:", 0.0f, &cw_active_profile.bounce_vol, 2.0f, 0.05f, 0.05f);
+        nk_property_float(&ctx, "Vol:   ", 0.0f, &cw_active_profile.bounce_vol, 2.0f, 0.05f, 0.05f);
         nk_checkbox_label(&ctx, "Vary Pitch", &cw_active_profile.bounce_vary_pitch);
       } else {
         nk_label(&ctx, "", NK_TEXT_LEFT);
@@ -838,7 +838,7 @@ static void Cwake_DrawNuklear(void) {
         if (nk_button_symbol(&ctx, NK_SYMBOL_TRIANGLE_RIGHT))
           Cwake_PlaySound(cw_active_profile.ricochet_sound, cw_active_profile.ricochet_vol,
                           cw_active_profile.ricochet_vary_pitch);
-        nk_property_float(&ctx, "Vol:", 0.0f, &cw_active_profile.ricochet_vol, 2.0f, 0.05f, 0.05f);
+        nk_property_float(&ctx, "Vol:    ", 0.0f, &cw_active_profile.ricochet_vol, 2.0f, 0.05f, 0.05f);
         nk_checkbox_label(&ctx, "Vary Pitch", &cw_active_profile.ricochet_vary_pitch);
       } else {
         nk_label(&ctx, "", NK_TEXT_LEFT);
@@ -906,7 +906,7 @@ static void Cwake_DrawNuklear(void) {
       nk_checkbox_label(&ctx, "Save UI/Theme", &cw_save_ui);
 
       struct nk_rect bounds = nk_window_get_bounds(&ctx);
-      float remaining_h = bounds.h - 180.0f;
+      float remaining_h = bounds.h - 240.0f;
       if (remaining_h < 150.0f) remaining_h = 150.0f;
       nk_layout_row_dynamic(&ctx, remaining_h, 2);
 
