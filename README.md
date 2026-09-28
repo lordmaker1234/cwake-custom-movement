@@ -23,6 +23,24 @@ Cwake is a client-side plugin for ClassiCube that introduces customizable physic
 3. Settings can be saved to individual profiles and hot-swapped. Profiles are stored in `plugins/cwake/profiles/`.
 4. Sounds support `.mp3` and `.wav`. They should be stored in `plugins/cwake/sounds`.
 
+## MOTD Flags
+You can set a map's MOTD using these options to enforce certain cwake settings. 
+```
+mode=         - Camera Tilt Mode
+friction=
+gravity=
+groundspeed=
+groundaccel=
+bounce=       - Ground bounce momentum transfer (>1 will bounce you higher than you originally started)
+airspeed=
+airaccel=
+aircap=
+ricochet_hor= - Horizontal ricochet momentum transfer
+ricochet_ver= - Vertical ricochet momentum transfer  
+ricochets=    - Maximum ricochet before needing to land
+```
+
 ## Building
 
 **To Be Finished**
+
